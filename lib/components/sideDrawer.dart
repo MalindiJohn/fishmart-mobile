@@ -54,18 +54,18 @@ class SideDrawerWidget extends StatelessWidget {
                         //   // color: primaryColor,
                         //   shape: BoxShape.rectangle,
                         // ),
-                        child: SvgPicture.asset("assets/icons/bitvex-logo.svg", height: 70,)
+                        child: SvgPicture.asset("assets/icons/fishmart-logo.svg", height: 70,)
                         ),
 
                       //Logo tag line
                       Container(
                         alignment: Alignment.center,
                         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                        child: const Text("Best fishing info",style: TextStyle(fontFamily: "K2D-Regular", fontSize: 16, color: primaryColor),)
+                        child: const Text("Fish Farming Info",style: TextStyle(fontFamily: "K2D-Regular", fontSize: 16, color: primaryColor),)
                         ),
                       Container(
                           alignment: Alignment.center,
-                          child: const Text("with us",style: TextStyle(fontFamily: "K2D-Regular", fontSize: 16, color: primaryColor),)
+                          child: const Text("For farmers",style: TextStyle(fontFamily: "K2D-Regular", fontSize: 16, color: primaryColor),)
                           ),
                       const SizedBox(height: 10,),    
                       const Divider(),  
@@ -92,7 +92,7 @@ class SideDrawerWidget extends StatelessWidget {
 
                       //expenses page 
                       ListTile(  
-                        leading: const Icon(Icons.person, color: primaryColor,), 
+                        leading: const Icon(Icons.menu, color: primaryColor,), 
                         title: const Text("Expenses", style: TextStyle(fontFamily: "K2D-Medium", fontSize: 15),),  
                         onTap: () {  
                           Navigator.pushNamedAndRemoveUntil(context, ExpensesScreen.routeName, (route) => false);  
@@ -101,7 +101,7 @@ class SideDrawerWidget extends StatelessWidget {
 
                       //sales page 
                       ListTile(  
-                        leading: const Icon(Icons.person, color: primaryColor,), 
+                        leading: const Icon(Icons.list_alt_outlined, color: primaryColor,), 
                         title: const Text("Sales", style: TextStyle(fontFamily: "K2D-Medium", fontSize: 15),),  
                         onTap: () {  
                           Navigator.pushNamedAndRemoveUntil(context, SalesScreen.routeName, (route) => false);  
@@ -110,7 +110,7 @@ class SideDrawerWidget extends StatelessWidget {
 
                       //fish farming info page 
                       ListTile(  
-                        leading: const Icon(Icons.person, color: primaryColor,), 
+                        leading: const Icon(Icons.info_outline, color: primaryColor,), 
                         title: const Text("Fish Farm Info", style: TextStyle(fontFamily: "K2D-Medium", fontSize: 15),),  
                         onTap: () {  
                           Navigator.pushNamedAndRemoveUntil(context, FishFarmInfoScreen.routeName, (route) => false);  

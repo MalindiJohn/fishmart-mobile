@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   //define email and password controllers
   //hold the data from user input
-  var emailController = new TextEditingController();
+  var emailController = TextEditingController();
   var passwordController = new TextEditingController();
 
   late bool isLoading;

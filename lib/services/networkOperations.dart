@@ -5,25 +5,22 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String serverUrl = "141.95.31.203:3000";
+const String serverUrl = "fishmart-api-production.up.railway.app";
 
 //users & members endpoints
 const String loginUrl = "/api/auth/login";
 const String registerUrl = "/api/auth/register";
 const String memberProfile = "/api/members/profile/";
-const String makeVip = "/api/members/makevip/";
-const String revokeVip = "/api/members/revokevip/:id";
 const String fetchUser = "/api/users/:email";
 
 //tips endpoints
-const String freeTipsUrl = "/api/tips/free";
-const String premiumTipsUrl = "/api/tips/premium";
-const String archiveTipsUrls = "/api/tips/closed/archives";
+const String fishfarmInfoUrl = "/api/fishinfo/all";
+const String singleFishfarmInfoUrl = "/api/fishinfo/";
 
 // The future of registration....
 // Cool stuff..
 Future<dynamic> userLogin(Map<String, String> loginInfo) async {
-  var uri = Uri.http(serverUrl, loginUrl);
+  var uri = Uri.https(serverUrl, loginUrl);
   var loginRequest = await http.post(uri,
       body: jsonEncode(loginInfo),
       headers: {'Content-Type': 'application/json; charset=UTF-8'});
@@ -31,6 +28,7 @@ Future<dynamic> userLogin(Map<String, String> loginInfo) async {
   // assuming we go a positive response
   if (loginRequest.statusCode == 200) {
     // everything is okay
+    print(loginRequest.body);
     return jsonDecode(loginRequest.body);
     
   } else if (loginRequest.statusCode == 404) {
@@ -47,7 +45,7 @@ Future<dynamic> userLogin(Map<String, String> loginInfo) async {
 
 // On to the other alternate future, the future of Registration.
 Future<dynamic> userRegistration(Map<String, String> registrationInfo) async {
-  var uri = Uri.http(serverUrl, registerUrl);
+  var uri = Uri.https(serverUrl, registerUrl);
 
   var registrationResponse = await http.post(uri,
       body: jsonEncode(registrationInfo),
@@ -65,8 +63,8 @@ Future<dynamic> userRegistration(Map<String, String> registrationInfo) async {
   }
 }
 
-Future<dynamic> getFreeTips() async {
-  var url = Uri.http(serverUrl, freeTipsUrl);
+Future<dynamic> getFishFarmingInfo() async {
+  var url = Uri.https(serverUrl, fishfarmInfoUrl);
 
   var freeTipsResponse = await http.get(url,
      headers: {'Content-Type': 'application/json;'}
@@ -89,45 +87,69 @@ Future<dynamic> getFreeTips() async {
   }
 }
 
-Future<dynamic> getPremiumTips() async {
-  var url = Uri.http(serverUrl, premiumTipsUrl);
+Future<dynamic> getSingleFishInfo(id) async {
+  var url = Uri.https(serverUrl, singleFishfarmInfoUrl+id);
 
-  //get token of logged in user
-  var prefs = await SharedPreferences.getInstance();
-  var token = prefs.getString('accessToken');
-
-  // attempt to get the tips from the repository
-  var tipsResponse = await http.get(
-    url, 
-    headers: {
-      'Content-Type': 'application/json;',
-      'Authorization': 'Bearer $token'
-      }
+  var singleFishInfoResponse = await http.get(url,
+     headers: {'Content-Type': 'application/json;'}
     );
 
-  if (tipsResponse.statusCode == 200) {
+  if (singleFishInfoResponse != null) {
+    if (singleFishInfoResponse.statusCode == 200) {
+      
+      // print(jsonDecode(singleFishInfoResponse.body));
 
-    return jsonDecode(tipsResponse.body);
+      return jsonDecode(singleFishInfoResponse.body);
 
+    } else {
+      // print(singleFishInfoResponse.statusCode);
+      // throw Exception('Failed to load the Featured Tip');
+    }
   } else {
-    var error = '{"message": "Sorry, check your connection"}';
-    return jsonDecode(error);
+    throw Exception(
+        'Failed to connect to the server!!! Kindly check your Internet connection');
   }
 }
 
-Future<dynamic> getArchivedTips() async {
-  var url = Uri.http(serverUrl, archiveTipsUrls);
+// Future<dynamic> getPremiumTips() async {
+//   var url = Uri.http(serverUrl, premiumTipsUrl);
 
-  var tipsResponse = await http.get(url);
+//   //get token of logged in user
+//   var prefs = await SharedPreferences.getInstance();
+//   var token = prefs.getString('accessToken');
 
-  if (tipsResponse.statusCode == 200) {
+//   // attempt to get the tips from the repository
+//   var tipsResponse = await http.get(
+//     url, 
+//     headers: {
+//       'Content-Type': 'application/json;',
+//       'Authorization': 'Bearer $token'
+//       }
+//     );
 
-    return jsonDecode(tipsResponse.body);
+//   if (tipsResponse.statusCode == 200) {
 
-  } else {
-    return jsonDecode("{'message': 'an error occurred'}");
-  }
-}
+//     return jsonDecode(tipsResponse.body);
+
+//   } else {
+//     var error = '{"message": "Sorry, check your connection"}';
+//     return jsonDecode(error);
+//   }
+// }
+
+// Future<dynamic> getArchivedTips() async {
+//   var url = Uri.http(serverUrl, archiveTipsUrls);
+
+//   var tipsResponse = await http.get(url);
+
+//   if (tipsResponse.statusCode == 200) {
+
+//     return jsonDecode(tipsResponse.body);
+
+//   } else {
+//     return jsonDecode("{'message': 'an error occurred'}");
+//   }
+// }
 
 
 Future<dynamic> getLoggedInMember() async {
@@ -141,9 +163,9 @@ Future<dynamic> getLoggedInMember() async {
     "email": email
   };
 
-  print(memberInfo);
+  // print(memberInfo);
 
-  var uri = Uri.http(serverUrl, memberProfile);
+  var uri = Uri.https(serverUrl, memberProfile);
   var profileRequest = await http.post(uri,
       body: jsonEncode(memberInfo), 
       headers: {'Content-Type': 'application/json; charset=UTF-8'}
@@ -152,60 +174,4 @@ Future<dynamic> getLoggedInMember() async {
   print(jsonDecode(profileRequest.body));
 
   return jsonDecode(profileRequest.body);
-}
-
-Future<dynamic> makeUserVip() async {
-
-  var prefs = await SharedPreferences.getInstance();
-  // var token = prefs.getString('accessToken');
-  var email = prefs.getString("email");
-
-  var data = {
-    "email": email
-  };
-
-  var uri = Uri.http(serverUrl, makeVip);
-  var profileRequest = await http.post(uri,
-      body: jsonEncode(data), 
-      headers: {'Content-Type': 'application/json; charset=UTF-8'}
-      );
-
-  // print(jsonDecode(profileRequest.body));
-
-  return jsonDecode(profileRequest.body);
-
-}
-
-Future<dynamic> removeVip(id) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  final String userID = id;
-
-  final String? token = prefs.getString('winnintipsToken');
-
-  var apiUrl = Uri.http(serverUrl, revokeVip);
-
-  Map data = {"id": userID, "isVip": "1"};
-
-  var body = jsonEncode(data);
-
-  final response = await http.put(apiUrl,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $token",
-      },
-      body: body);
-
-  if (response != null) {
-    if (response.statusCode == 200) {
-      final String responseString = response.body;
-
-      return jsonDecode(responseString);
-    } else {
-      return jsonDecode('Login Failed!!!');
-    }
-  } else {
-    return jsonDecode(
-        'Could not connect to the server! Kindly check your internet connection');
-  }
 }

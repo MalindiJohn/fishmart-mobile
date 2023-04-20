@@ -12,6 +12,7 @@ const dkGreyColor = Color(0x12464646);
 const colorWHite = Color(0xFFFFFFFF);
 const moreFadedColor =  Color(0x1A707070);
 const shadeColor = Color(0x1C3D7DF2);
+const lightGreyColor = Color(0xFF9F9F9F);
 
 //end of app colors
 

@@ -11,9 +11,9 @@ Future<void> main() async {
 
   var prefs = await SharedPreferences.getInstance();
   // var onboard = prefs.getString("onBoarded");
-  // var loggedIn = prefs.getString('accessToken');
+  var loggedIn = prefs.getString('accessToken');
 
-  var loggedIn = null;
+  // var loggedIn = null;
 
   if (loggedIn != null) {
 

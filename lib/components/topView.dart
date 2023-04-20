@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/colors.dart';
 import '../screens/homeScreen.dart';
 import '../screens/profileScreen.dart';
+import 'package:fishmartmobile/globals.dart' as globals;
 
 class TopViewWidget extends StatelessWidget {
   const TopViewWidget({
@@ -73,8 +75,14 @@ class TopViewWidget extends StatelessWidget {
                                     padding: const EdgeInsets.all(8.0),
                                     child: SvgPicture.asset('assets/icons/user_icon.svg'),
                                   ),
-                              onTap: () {
+                              onTap: () async{
+                                //   //get token of logged in user
+                                  var prefs = await SharedPreferences.getInstance();
+                                  var email = prefs.getString('email');
 
+                                  globals.loggedInUserEmail = email!;
+
+                                   // ignore: use_build_context_synchronously
                                    Navigator.pushNamedAndRemoveUntil(context, ProfileScreen.routeName, (route) => true);
                               },),
                             ],

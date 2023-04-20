@@ -39,7 +39,7 @@ class AuthTopViewWidget extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
                       child: Column(
                         children: [
-                          Row(
+                          Row(  
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SvgPicture.asset('assets/icons/header_logo.svg'),

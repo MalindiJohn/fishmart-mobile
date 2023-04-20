@@ -40,7 +40,7 @@ class HomeTopViewWidget extends StatelessWidget {
                 children: [
                   Container(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 30.0),
                       child: Column(
                         children: [
                           Row(
@@ -86,19 +86,6 @@ class HomeTopViewWidget extends StatelessWidget {
                               child: Text(heading,
                                 style: const TextStyle(
                                     fontSize: 25,
-                                    // fontWeight: FontWeight.w600,
-                                    color: bgColor,
-                                    fontFamily: "K2D-Regular",
-                                ),),
-                            ),
-                          ),
-
-                          const Center(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                              child: Text("Forex | Crypto | Commodities | Indices | Binary",
-                                style: TextStyle(
-                                    fontSize: 15,
                                     // fontWeight: FontWeight.w600,
                                     color: bgColor,
                                     fontFamily: "K2D-Regular",

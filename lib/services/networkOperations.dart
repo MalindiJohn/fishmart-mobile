@@ -13,9 +13,21 @@ const String registerUrl = "/api/auth/register";
 const String memberProfile = "/api/members/profile/";
 const String fetchUser = "/api/users/:email";
 
-//tips endpoints
+//fish farming info endpoints
 const String fishfarmInfoUrl = "/api/fishinfo/all";
 const String singleFishfarmInfoUrl = "/api/fishinfo/";
+
+//sales endpoints
+const String salesUrl = "/api/sales/all";
+const String saveSaleUrl = "/api/sales/create";
+const String editSaleUrl = "/sales/edit/";
+const String removeSaleUrl = "/sales/remove/";
+const String oneSaleUrl = "/sales/one/";
+
+//expenses endpoints
+const String expensesUrl = "/api/expenses/all";
+const String saveExpenseUrl = "/api/expenses/create";
+
 
 // The future of registration....
 // Cool stuff..
@@ -111,31 +123,150 @@ Future<dynamic> getSingleFishInfo(id) async {
   }
 }
 
-// Future<dynamic> getPremiumTips() async {
-//   var url = Uri.http(serverUrl, premiumTipsUrl);
+Future<dynamic> getSales() async {
+  
+  var url = Uri.https(serverUrl, salesUrl);
 
-//   //get token of logged in user
-//   var prefs = await SharedPreferences.getInstance();
-//   var token = prefs.getString('accessToken');
+  //get token of logged in user
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('accessToken');
 
-//   // attempt to get the tips from the repository
-//   var tipsResponse = await http.get(
-//     url, 
-//     headers: {
-//       'Content-Type': 'application/json;',
-//       'Authorization': 'Bearer $token'
-//       }
-//     );
+  print(token);
 
-//   if (tipsResponse.statusCode == 200) {
+  // attempt to get the tips from the repository
+  var salesResponse = await http.get(
+    url, 
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token'
+      }
+    );
 
-//     return jsonDecode(tipsResponse.body);
+  if (salesResponse.statusCode == 200) {
 
-//   } else {
-//     var error = '{"message": "Sorry, check your connection"}';
-//     return jsonDecode(error);
-//   }
-// }
+    return jsonDecode(salesResponse.body);
+
+  } else {
+    var error = '{"message": "Sorry, check your connection"}';
+    return jsonDecode(error);
+  }
+}
+
+Future<dynamic> getSingleSale(id) async {
+  
+  var url = Uri.https(serverUrl, oneSaleUrl+id);
+
+  //get token of logged in user
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('accessToken');
+
+  print(token);
+
+  // attempt to get the tips from the repository
+  var saleResponse = await http.get(
+    url, 
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token'
+      }
+    );
+
+  if (saleResponse.statusCode == 200) {
+
+    return jsonDecode(saleResponse.body);
+
+  } else {
+    var error = '{"message": "Sorry, check your connection"}';
+    return jsonDecode(error);
+  }
+}
+
+// On to the other alternate future, the future of Registration.
+Future<dynamic> saveSale(Map<String, String> saleInfo) async {
+
+  var uri = Uri.https(serverUrl, saveSaleUrl);
+
+  //get token of logged in user
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('accessToken');
+
+  var saleResponse = await http.post(uri,
+      body: jsonEncode(saleInfo),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+
+      });
+
+  if (saleResponse.statusCode == 200) {
+    // implies that a user was successfully registered.
+    return jsonDecode(saleResponse.body);
+    
+  } else {
+    // something went wrong somewhere, maybe in the user input I believe, or the server maybe
+    var errorMessage = '{"message": "${saleResponse.reasonPhrase}"}';
+    return jsonDecode(errorMessage);
+    // print(jsonEncode(saleInfo));
+  }
+}
+
+Future<dynamic> getExpenses() async {
+  
+  var url = Uri.https(serverUrl, expensesUrl);
+
+  //get token of logged in user
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('accessToken');
+
+  print(token);
+
+  // attempt to get the tips from the repository
+  var expensesResponse = await http.get(
+    url, 
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token'
+      }
+    );
+
+  if (expensesResponse.statusCode == 200) {
+
+    return jsonDecode(expensesResponse.body);
+
+  } else {
+    var error = '{"message": "Sorry, check your connection"}';
+    return jsonDecode(error);
+  }
+}
+
+// On to the other alternate future, the future of Registration.
+Future<dynamic> saveExpense(Map<String, String> expenseInfo) async {
+
+  var uri = Uri.https(serverUrl, saveExpenseUrl);
+
+  //get token of logged in user
+  var prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('accessToken');
+
+  var expenseResponse = await http.post(uri,
+      body: jsonEncode(expenseInfo),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+
+      });
+
+  if (expenseResponse.statusCode == 200) {
+    // implies that a user was successfully registered.
+    return jsonDecode(expenseResponse.body);
+    
+  } else {
+    // something went wrong somewhere, maybe in the user input I believe, or the server maybe
+    var errorMessage = '{"message": "${expenseResponse.reasonPhrase}"}';
+    return jsonDecode(errorMessage);
+    // print(jsonEncode(saleInfo));
+  }
+}
 
 // Future<dynamic> getArchivedTips() async {
 //   var url = Uri.http(serverUrl, archiveTipsUrls);

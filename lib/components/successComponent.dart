@@ -1,14 +1,15 @@
+import 'package:fishmartmobile/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 
-class ErrorComponentWidget extends StatelessWidget {
-  const ErrorComponentWidget({ 
-    Key? key,
-    required this.errorText,
-    }) : super(key: key);
+class SuccessComponentWidget extends StatelessWidget {
+  const SuccessComponentWidget({
+     Key? key,
+     required this.successText
+     }) : super(key: key);
 
-    final String errorText;
+    final String successText;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +21,12 @@ class ErrorComponentWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset("assets/icons/error_icon.svg", 
+                SvgPicture.asset("assets/icons/success_icon.svg", 
                 height: MediaQuery.of(context).size.height * 0.15,),
 
                 const SizedBox(height: 20,),
-                Text(errorText, 
-                          style: TextStyle(fontFamily: "Poppins-Regular", fontSize: 14, color: Colors.red[300]),
+                Text(successText, 
+                          style: const TextStyle(fontFamily: "Poppins-Regular", fontSize: 14,),
                           textAlign: TextAlign.center,
                           )
               ],

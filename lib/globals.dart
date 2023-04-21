@@ -9,3 +9,5 @@ String fishInfoId = "";
 String fishInfoTitle = "";
 
 String fishInfoSubTitle = "";
+
+String saleID = "";
